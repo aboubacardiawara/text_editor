@@ -3,6 +3,15 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QFile, QTextStream
 class MainWindow(QMainWindow):
+	"""Main window of the text editor.
+		The text editor contains:
+  			- a tool bar
+			- a central zone
+			- a status bar
+
+	Args:
+		QMainWindow ([type]): [description]
+	"""
 	def __init__(self) -> None:
 		super().__init__()
 		self.zone_centrale = QTextEdit()
@@ -14,10 +23,7 @@ class MainWindow(QMainWindow):
 	
 	def AddFileMenu(self, ):
 		"""
-		open
-		save
-		copy
-		quit
+		build the components of the tool bar.
 		"""
 		fileMenu = self.menuBar.addMenu("Fichier")
 		
@@ -33,6 +39,7 @@ class MainWindow(QMainWindow):
 		
 	def addToMenu(self, props, menuParents):
 		"""
+		manage the building of the menu bar. 
 		"""
 		actions = {
 			"open": self.openFile,
@@ -59,10 +66,15 @@ class MainWindow(QMainWindow):
 			parent.addAction(newAct)
 
 	def init(self):
+		"""run the building of window components 
+		"""
 		self.AddFileMenu()
 
 
 	def openFile(self):
+		"""
+			allow to open a directory manager. (see slot)
+  		"""
 		filePath = QFileDialog.getOpenFileName(self, 'Open file', '/home', 'All Files (*.*)')
 		file = QFile(filePath[0])
 		file.open(QFile.ReadOnly | QFile.Text)
@@ -72,6 +84,8 @@ class MainWindow(QMainWindow):
 
 
 	def saveFile(self):
+		"""allow to save file in local file system (see slot)
+		"""
 		filePath = QFileDialog.getSaveFileName(self, 'Save File', '/home')
 		contain = self.zone_centrale.toPlainText()
 		with open(filePath[0], 'w') as file:
@@ -79,18 +93,25 @@ class MainWindow(QMainWindow):
 
 
 	def copy(self):
-		print("save")
+		"""copy a textual contain
+		"""
+		print("copy")
 	
 	def cut(self):
+		"""cut a textual contain"""
 		print("cut")
 
 	def new(self):
+		"""create a new file
+		"""
 		print("new")
 
 	def past(self):
+		"""past a textual contain"""
 		print("past")
 
 	def quitApp(self):
+		"""allow to close safety the app"""
 		msg = QMessageBox()
 		choice = msg.question(self, '', "Do you want to exit ?", QMessageBox.Yes | QMessageBox.No)
 		if choice == QMessageBox.Yes:
